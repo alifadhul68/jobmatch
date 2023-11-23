@@ -28,12 +28,8 @@ class UserController extends Controller
         ]);
 
         $user->sendEmailVerificationNotification();
-
-//        auto login user after creation
-//        Auth::login($user);
-//        return redirect()->intended('dashboard');
-
-        return redirect()->route('login')->with('successMessage', 'Your account was successfully created');
+        Auth::login($user);
+        return redirect()->route('verification.notice')->with('successMessage', 'Your account was successfully created');
     }
 
     public function createEmployer()
@@ -51,11 +47,8 @@ class UserController extends Controller
         ]);
 
         $user->sendEmailVerificationNotification();
-
-//        auto login user after creation
-//        Auth::login($user);
-//        return redirect()->intended('dashboard');
-        return redirect()->route('login')->with('successMessage', 'Your account was successfully created');
+        Auth::login($user);
+        return redirect()->route('verification.notice')->with('successMessage', 'Your account was successfully created');
     }
 
 
