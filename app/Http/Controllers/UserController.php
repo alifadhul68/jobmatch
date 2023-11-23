@@ -28,22 +28,30 @@ class UserController extends Controller
         return back();
     }
 
-    public function login(){
+    public function login()
+    {
         return view('user.login');
     }
 
-    public function postLogin(Request $request){
+    public function postLogin(Request $request)
+    {
         $request->validate([
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
+
         $creds = $request->only('email', 'password');
-        if(Auth::attempt($creds)) {
+
+        if (Auth::attempt($creds)) {
             return redirect()->intended('dashboard');
+        } else {
+            return redirect()->back()->withInput()->withErrors(['email' => 'Invalid email or password']);
         }
     }
 
-    public function logout(){
+
+    public function logout()
+    {
         auth()->logout();
         return redirect()->route('login');
     }

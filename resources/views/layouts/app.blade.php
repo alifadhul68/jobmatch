@@ -30,10 +30,10 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('login')}}">Login</a>
-                </li>
                 @if(!Auth::check())
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('login')}}">Login</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('create.seeker')}}">Job Seeker</a>
                     </li>
@@ -55,7 +55,7 @@
 <script>
     let logout = document.getElementById('logout');
     let logoutForm = document.getElementById('logoutForm');
-    logout.addEventListener('click', function(){
+    logout.addEventListener('click', function () {
         logoutForm.submit();
     })
 </script>
