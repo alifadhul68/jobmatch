@@ -3,30 +3,61 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SeekerRegistrationRequest;
+use App\Http\Requests\RegistrationRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    const JOB_SEEKER = 'seeker';
+    const SEEKER = 'seeker';
+    const EMPLOYER = 'employer';
 
     public function createSeeker()
     {
         return view('user.seeker-register');
     }
 
-    public function storeSeeker(SeekerRegistrationRequest $request)
+    public function storeSeeker(RegistrationRequest $request)
     {
-        User::create([
+        $user = User::create([
             'name' => request('name'),
             'email' => request('email'),
-            'password' => bcrypt(request('password')),
-            'user_type' => self::JOB_SEEKER
+            'password' => bcrypt($request->input('password')),
+            'user_type' => self::SEEKER
         ]);
-        return back();
+
+        $user->sendEmailVerificationNotification();
+
+//        auto login user after creation
+//        Auth::login($user);
+//        return redirect()->intended('dashboard');
+
+        return redirect()->route('login')->with('successMessage', 'Your account was successfully created');
     }
+
+    public function createEmployer()
+    {
+        return view('user.employer-register');
+    }
+    public function storeEmployer(RegistrationRequest $request)
+    {
+        $user = User::create([
+            'name' => request('name'),
+            'email' => request('email'),
+            'password' => bcrypt($request->input('password')),
+            'user_type' => self::EMPLOYER,
+            'user_trial' => now()->addWeek(),
+        ]);
+
+        $user->sendEmailVerificationNotification();
+
+//        auto login user after creation
+//        Auth::login($user);
+//        return redirect()->intended('dashboard');
+        return redirect()->route('login')->with('successMessage', 'Your account was successfully created');
+    }
+
 
     public function login()
     {
@@ -48,7 +79,6 @@ class UserController extends Controller
             return redirect()->back()->withInput()->withErrors(['email' => 'Invalid email or password']);
         }
     }
-
 
     public function logout()
     {
