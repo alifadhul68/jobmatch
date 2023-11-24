@@ -7,6 +7,7 @@ use App\Http\Requests\RegistrationRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -20,16 +21,33 @@ class UserController extends Controller
 
     public function storeSeeker(RegistrationRequest $request)
     {
-        $user = User::create([
-            'name' => request('name'),
-            'email' => request('email'),
-            'password' => bcrypt($request->input('password')),
-            'user_type' => self::SEEKER
-        ]);
+        DB::beginTransaction();
 
-        $user->sendEmailVerificationNotification();
-        Auth::login($user);
-        return redirect()->route('verification.notice')->with('successMessage', 'Your account was successfully created');
+        try {
+            $user = User::create([
+                'name' => request('name'),
+                'email' => request('email'),
+                'password' => bcrypt($request->input('password')),
+                'user_type' => self::SEEKER
+            ]);
+
+            $user->sendEmailVerificationNotification();
+            Auth::login($user);
+
+            DB::commit();
+
+            return redirect()->route('verification.notice')->with('successMessage', 'Your account was successfully created');
+        } catch (\Exception $e) {
+            // If an error occurs during email sending, catch the exception
+            // Roll back the database transaction
+            DB::rollBack();
+
+            // Delete the user from the database
+            $user->delete();
+
+            // Rethrow the exception to log it or handle it further if needed
+            throw $e;
+        }
     }
 
     public function createEmployer()
@@ -38,17 +56,34 @@ class UserController extends Controller
     }
     public function storeEmployer(RegistrationRequest $request)
     {
-        $user = User::create([
-            'name' => request('name'),
-            'email' => request('email'),
-            'password' => bcrypt($request->input('password')),
-            'user_type' => self::EMPLOYER,
-            'user_trial' => now()->addWeek(),
-        ]);
+        DB::beginTransaction();
 
-        $user->sendEmailVerificationNotification();
-        Auth::login($user);
-        return redirect()->route('verification.notice')->with('successMessage', 'Your account was successfully created');
+        try {
+            $user = User::create([
+                'name' => request('name'),
+                'email' => request('email'),
+                'password' => bcrypt($request->input('password')),
+                'user_type' => self::EMPLOYER,
+                'user_trial' => now()->addWeek(),
+            ]);
+
+            $user->sendEmailVerificationNotification();
+            Auth::login($user);
+
+            DB::commit();
+
+            return redirect()->route('verification.notice')->with('successMessage', 'Your account was successfully created');
+        } catch (\Exception $e) {
+            // If an error occurs during email sending, catch the exception
+            // Roll back the database transaction
+            DB::rollBack();
+
+            // Delete the user from the database
+            $user->delete();
+
+            // Rethrow the exception to log it or handle it further if needed
+            throw $e;
+        }
     }
 
 
