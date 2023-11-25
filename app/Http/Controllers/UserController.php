@@ -35,8 +35,8 @@ class UserController extends Controller
             Auth::login($user);
 
             DB::commit();
-
-            return redirect()->route('verification.notice')->with('successMessage', 'Your account was successfully created');
+            return response()->json('success');
+            //return redirect()->route('verification.notice')->with('successMessage', 'Your account was successfully created');
         } catch (\Exception $e) {
             // If an error occurs during email sending, catch the exception
             // Roll back the database transaction
@@ -72,7 +72,8 @@ class UserController extends Controller
 
             DB::commit();
 
-            return redirect()->route('verification.notice')->with('successMessage', 'Your account was successfully created');
+            return response()->json('success');
+            //return redirect()->route('verification.notice')->with('successMessage', 'Your account was successfully created');
         } catch (\Exception $e) {
             // If an error occurs during email sending, catch the exception
             // Roll back the database transaction

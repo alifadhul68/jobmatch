@@ -10,43 +10,78 @@
             </div>
 
             <div class="col-md-6">
-                <div class="card">
-                    <div class="card">
+                    <div class="card" id="card">
                         <div class="card-header">Employer Register</div>
-                        <form action="{{route('store.employer')}}" method="post">
+                        <form action="#" method="post" id="RegistrationForm">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="name">Company name</label>
-                                    <input type="text" id="name" name="name" class="form-control">
+                                    <input type="text" id="name" name="name" class="form-control" required>
                                     @if($errors->has('name'))
                                         <span class="text-danger"> {{ $errors->first('name') }}  </span>
                                     @endif
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="text" id="email" name="email" class="form-control">
+                                    <input type="text" id="email" name="email" class="form-control" required>
                                     @if($errors->has('email'))
                                         <span class="text-danger"> {{ $errors->first('email') }}  </span>
                                     @endif
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input type="password" id="password" name="password" class="form-control">
+                                    <input type="password" id="password" name="password" class="form-control" required>
                                     @if($errors->has('password'))
                                         <span class="text-danger"> {{ $errors->first('password') }}  </span>
                                     @endif
                                 </div>
                                 <br>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-primary">Register</button>
+                                    <button type="submit" class="btn btn-primary" id="RegisterBtn">Register</button>
                                 </div>
                             </div>
                         </form>
                     </div>
-                </div>
+                <div id="message"></div>
             </div>
-
         </div>
     </div>
+    <script>
+        var url = "{{route('store.employer')}}";
+        document.getElementById("RegisterBtn").addEventListener("click", function (event){
+            var form = document.getElementById('RegistrationForm');
+            var messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = '';
+            var card = document.getElementById('card');
+            var formData = new FormData(form);
+
+            var button = event.target;
+            button.disabled = true;
+            button.innerHTML = 'Registering...'
+
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': '{{csrf_token()}}'
+                },
+                body: formData
+            }).then(response => {
+                if(response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Error submitting form data')
+                }
+            }).then(data => {
+                button.innerHTML = 'Register'
+                button.disabled = false
+                messageDiv.innerHTML = '<div class="alert alert-success">Registration was successful. Please check your email to verify your registration.</div>'
+                card.style.display = 'none'
+            }).catch(error => {
+                button.innerHTML = 'Register'
+                button.disabled = false
+                messageDiv.innerHTML = '<div class="alert alert-danger mt-3">Something went wrong. Please try again later.</div>'
+            })
+        })
+    </script>
 @endsection
