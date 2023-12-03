@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\SubscriptionController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\DashboardController;
+use App\Http\Middleware\isSubscribed;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -39,3 +42,12 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 })->middleware(['auth', 'signed'])->name('verification.verify');
 Route::get('/verify', [DashboardController::class, 'verify'])->name('verification.notice');
 Route::get('/resend/verification/email', [DashboardController::class, 'resend'])->name('resend.email');
+
+Route::get('/subscribe', [SubscriptionController::class, 'subscribe'])->name('pay');
+Route::get('pay/weekly', [SubscriptionController::class, 'startPayment'])->name('pay.weekly');
+Route::get('pay/monthly', [SubscriptionController::class, 'startPayment'])->name('pay.monthly');
+Route::get('pay/yearly', [SubscriptionController::class, 'startPayment'])->name('pay.yearly');
+Route::get('pay/success', [SubscriptionController::class, 'paymentSuccess'])->name('pay.success');
+Route::get('pay/cancel', [SubscriptionController::class, 'paymentCancel'])->name('pay.cancel');
+
+Route::get('job/create', [JobController::class, 'create'])->middleware(isSubscribed::class)->name('job.create');
