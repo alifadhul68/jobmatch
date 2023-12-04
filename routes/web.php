@@ -51,3 +51,4 @@ Route::get('pay/success', [SubscriptionController::class, 'paymentSuccess'])->na
 Route::get('pay/cancel', [SubscriptionController::class, 'paymentCancel'])->name('pay.cancel');
 
 Route::get('job/create', [JobController::class, 'create'])->middleware(isSubscribed::class)->name('job.create');
+Route::post('job/store', [JobController::class, 'store'])->middleware(isSubscribed::class)->name('job.store');
