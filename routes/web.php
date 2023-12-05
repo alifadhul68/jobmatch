@@ -4,6 +4,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\SubscriptionController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\DashboardController;
+use App\Http\Middleware\isEmployer;
 use App\Http\Middleware\isSubscribed;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -50,5 +51,10 @@ Route::get('pay/yearly', [SubscriptionController::class, 'startPayment'])->name(
 Route::get('pay/success', [SubscriptionController::class, 'paymentSuccess'])->name('pay.success');
 Route::get('pay/cancel', [SubscriptionController::class, 'paymentCancel'])->name('pay.cancel');
 
+Route::get('job', [JobController::class, 'index'])->middleware(isEmployer::class)->name('job.index');
 Route::get('job/create', [JobController::class, 'create'])->middleware(isSubscribed::class)->name('job.create');
 Route::post('job/store', [JobController::class, 'store'])->middleware(isSubscribed::class)->name('job.store');
+Route::get('job/{listing}/edit', [JobController::class, 'edit'])->middleware(isEmployer::class)->name('job.edit');
+Route::put('job/{id}/update', [JobController::class, 'update'])->middleware(isEmployer::class)->name('job.update');
+Route::delete('job/{id}/remove', [JobController::class, 'remove'])->middleware(isEmployer::class)->name('job.remove');
+
