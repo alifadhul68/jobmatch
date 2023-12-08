@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -54,6 +55,7 @@ class UserController extends Controller
     {
         return view('user.employer-register');
     }
+
     public function storeEmployer(RegistrationRequest $request)
     {
         DB::beginTransaction();
@@ -103,9 +105,13 @@ class UserController extends Controller
         $creds = $request->only('email', 'password');
 
         if (Auth::attempt($creds)) {
-            return redirect()->intended('dashboard');
+            if(auth()->user()->user_type == self::EMPLOYER) {
+                return redirect()->route('dashboard');
+            } else {
+                return redirect()->to('/');
+            }
         } else {
-            return redirect()->back()->withInput()->withErrors(['email' => 'Invalid email or password']);
+            return redirect()->back()->with('errorMessage', 'Invalid email or password');
         }
     }
 
@@ -114,4 +120,38 @@ class UserController extends Controller
         auth()->logout();
         return redirect()->route('login');
     }
+
+    public function employerProfile()
+    {
+        return view('profile.employer.index');
+    }
+
+    public function updateProfile(Request $request){
+        if($request->hasFile('profile_pic')){
+            $imgPath = $request->file('profile_pic')->store('profile', 'public');
+            User::find(auth()->user()->id)->update(['profile_pic' => $imgPath]);
+        }
+        User::find(auth()->user()->id)->update($request->except('profile_pic'));
+        return back()->with('success', 'Your profile has been updated');
+    }
+
+    public function seekerProfile()
+    {
+        return view('profile.seeker.index');
+    }
+
+    public function updatePassword(Request $request){
+        $request->validate([
+           'current_password' => 'required',
+            'password' => 'required|min:4|confirmed'
+        ]);
+        $user = auth()->user();
+        if(!Hash::check($request->current_password, $user->password)){
+            return back()->with('error', 'Your current password does not match');
+        }
+        $user->password = Hash::make($request->password);
+        $user->save();
+        return back()->with('success', 'Your password has been updated');
+    }
+
 }

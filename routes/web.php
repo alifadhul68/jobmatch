@@ -4,6 +4,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\SubscriptionController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\DashboardController;
+use App\Http\Middleware\CheckAuth;
 use App\Http\Middleware\isEmployer;
 use App\Http\Middleware\isSubscribed;
 use Illuminate\Support\Facades\Route;
@@ -21,19 +22,25 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
-Route::get('/register/seeker', [UserController::class, 'createSeeker'])->name('create.seeker');
+Route::get('/register/seeker', [UserController::class, 'createSeeker'])->middleware(CheckAuth::class)->name('create.seeker');
 Route::post('/register/seeker', [UserController::class, 'storeSeeker'])->name('store.seeker');
-Route::get('/register/employer', [UserController::class, 'createEmployer'])->name('create.employer');
+Route::get('/register/employer', [UserController::class, 'createEmployer'])->middleware(CheckAuth::class)->name('create.employer');
 Route::post('/register/employer', [UserController::class, 'storeEmployer'])->name('store.employer');
 
-Route::get('/login', [UserController::class, 'login'])->name('login');
+Route::get('/login', [UserController::class, 'login'])->middleware(CheckAuth::class)->name('login');
 Route::post('/login', [UserController::class, 'postLogin'])->name('login.post');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('verified')
+Route::get('/employer/profile', [UserController::class, 'employerProfile'])->middleware('auth')->name('employer.profile');
+Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->middleware('auth')->name('user.profile.update');
+
+Route::get('/seeker/profile', [UserController::class, 'seekerProfile'])->middleware('auth')->name('seeker.profile');
+Route::post('/user/password/update', [UserController::class, 'updatePassword'])->middleware('auth')->name('user.password.update');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['verified', isEmployer::class])
     ->name('dashboard');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
