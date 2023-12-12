@@ -26,7 +26,7 @@
                 @csrf
                 <div class="col-md-8">
                     <div class="form-group">
-                        <label for="logo">Logo</label>
+                        <label for="logo">Company Logo</label>
                         <input type="file" class="form-control" id="logo" name="profile_pic">
                         @if(auth()->user()->profile_pic)
                             <img src="{{Storage::url(auth()->user()->profile_pic)}}" class="img-fluid" width="150">

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\JobListingController;
 use App\Http\Controllers\SubscriptionController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\DashboardController;
@@ -21,9 +23,9 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [JobListingController::class, 'index'])->name('home');
+Route::get('/jobs/{listing:slug}', [JobListingController::class, 'view'])->name('job.show');
+Route::post('/coverletter/upload', [JobListingController::class, 'uploadCover'])->middleware('auth');
 
 Route::get('/register/seeker', [UserController::class, 'createSeeker'])->middleware(CheckAuth::class)->name('create.seeker');
 Route::post('/register/seeker', [UserController::class, 'storeSeeker'])->name('store.seeker');
@@ -35,10 +37,12 @@ Route::post('/login', [UserController::class, 'postLogin'])->name('login.post');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::get('/employer/profile', [UserController::class, 'employerProfile'])->middleware('auth')->name('employer.profile');
-Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->middleware('auth')->name('user.profile.update');
-
 Route::get('/seeker/profile', [UserController::class, 'seekerProfile'])->middleware('auth')->name('seeker.profile');
+Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->middleware('auth')->name('user.profile.update');
 Route::post('/user/password/update', [UserController::class, 'updatePassword'])->middleware('auth')->name('user.password.update');
+Route::post('/seeker/resume/upload', [UserController::class, 'uploadResume'])->middleware('auth')->name('user.resume.upload');
+Route::post('/seeker/resume/remove', [UserController::class, 'deleteResume'])->middleware('auth')->name('user.resume.remove');
+
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['verified', isEmployer::class])
     ->name('dashboard');
@@ -65,3 +69,7 @@ Route::get('job/{listing}/edit', [JobController::class, 'edit'])->middleware(isE
 Route::put('job/{id}/update', [JobController::class, 'update'])->middleware(isEmployer::class)->name('job.update');
 Route::delete('job/{id}/remove', [JobController::class, 'remove'])->middleware(isEmployer::class)->name('job.remove');
 
+Route::get('/applicants', [ApplicantController::class, 'index'])->middleware(['auth', isEmployer::class])->name('applicants.index');
+Route::get('/applicants/{listing:slug}', [ApplicantController::class, 'view'])->middleware(['auth', isEmployer::class])->name('applicants.view');
+Route::post('/applicants/shortlist/{listingId}/{userId}', [ApplicantController::class, 'shortlist'])->middleware(['auth', isEmployer::class])->name('applicants.shortlist');
+Route::post('/seeker/{listingId}/apply', [ApplicantController::class, 'apply'])->middleware('auth')->name('job.apply');

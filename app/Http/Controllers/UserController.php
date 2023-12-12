@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegistrationRequest;
 use App\Models\User;
@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
 class UserController extends Controller
 {
     const SEEKER = 'seeker';
@@ -128,12 +127,16 @@ class UserController extends Controller
 
     public function updateProfile(Request $request){
         if($request->hasFile('profile_pic')){
+            $request->validate([
+                'profile_pic' => 'image|mimes:jpeg,png,jpg|max:10240'
+            ]);
             $imgPath = $request->file('profile_pic')->store('profile', 'public');
             User::find(auth()->user()->id)->update(['profile_pic' => $imgPath]);
         }
         User::find(auth()->user()->id)->update($request->except('profile_pic'));
         return back()->with('success', 'Your profile has been updated');
     }
+
 
     public function seekerProfile()
     {
@@ -154,4 +157,20 @@ class UserController extends Controller
         return back()->with('success', 'Your password has been updated');
     }
 
+    public function uploadResume(Request $request){
+        $request->validate([
+            'resume' =>'required|mimes:pdf,doc,docx'
+        ]);
+
+        if ($request->hasFile('resume')) {
+            $resume = $request->file('resume')->store('resume', 'public');
+            User::find(auth()->user()->id)->update(['resume' => $resume]);
+            return back()->with('success', 'Your resume has been uploaded');
+        }
+    }
+
+    public function deleteResume(){
+        User::find(auth()->user()->id)->update(['resume' => null]);
+        return back()->with('success', 'Your resume has been deleted');
+    }
 }
