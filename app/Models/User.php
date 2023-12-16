@@ -33,8 +33,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function listings(){
         return $this->belongsToMany(Listing::class, 'listing_user', 'user_id', 'listing_id')
-            ->withpivot('is_shortlisted')
+            ->withpivot('is_shortlisted', 'cover_letter')
             ->withTimestamps();
+    }
+
+    public function jobs() {
+        return $this->hasMany(Listing::class, 'user_id', 'id');
     }
     /**
      * The attributes that should be hidden for serialization.

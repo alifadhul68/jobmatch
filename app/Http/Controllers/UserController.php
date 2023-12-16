@@ -128,7 +128,7 @@ class UserController extends Controller
     public function updateProfile(Request $request){
         if($request->hasFile('profile_pic')){
             $request->validate([
-                'profile_pic' => 'image|mimes:jpeg,png,jpg|max:10240'
+                'profile_pic' => 'image|max:10240'
             ]);
             $imgPath = $request->file('profile_pic')->store('profile', 'public');
             User::find(auth()->user()->id)->update(['profile_pic' => $imgPath]);
@@ -159,7 +159,7 @@ class UserController extends Controller
 
     public function uploadResume(Request $request){
         $request->validate([
-            'resume' =>'required|mimes:pdf,doc,docx'
+            'resume' =>'required|mimes:pdf,doc,docx|max:10240'
         ]);
 
         if ($request->hasFile('resume')) {
@@ -172,5 +172,23 @@ class UserController extends Controller
     public function deleteResume(){
         User::find(auth()->user()->id)->update(['resume' => null]);
         return back()->with('success', 'Your resume has been deleted');
+    }
+
+    public function companyProfile($id) {
+        $company = User::with('jobs')->where('id', $id)->where('user_type', self::EMPLOYER)->first();
+
+        return view('company', compact('company'));
+    }
+
+    public function appliedJobs() {
+        $users = User::with('listings')->where('id', auth()->user()->id)->get();
+        return view('applied-jobs', compact('users'));
+    }
+
+    public function deleteUser() {
+        $userid = auth()->user()->id;
+        User::find($userid)->delete();
+        auth()->logout();
+        return redirect()->route('login')->with('successMessage', 'Your account has been successfully deleted');
     }
 }

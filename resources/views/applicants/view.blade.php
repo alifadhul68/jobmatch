@@ -37,14 +37,23 @@
                             </div>
                         </div>
                         <div class="col-auto align-self-center">
-                            <form action="{{route('applicants.shortlist', [$listing->id, $user->id])}}" method="post" class="d-flex flex-column align-items-stretch">
+                            <form action="{{route('applicants.shortlist', [$listing->id, $user->id])}}" method="post"
+                                  class="d-flex flex-column align-items-stretch">
                                 @csrf
-                            @if($user->resume)
-                                <a href="{{Storage::url($user->resume)}}" class="btn btn-primary">Download Resume</a>
-                            @else
-                                <p class="card-text text-danger">No resume uploaded</p>
-                            @endif
-                                <button type="submit" class="mt-2 {{$user->pivot->is_shortlisted ? 'btn btn-success disabled' : 'btn btn-dark'}}">Shortlist</button>
+                                @if($user->resume)
+                                    <a href="{{Storage::url($user->resume)}}" class="btn btn-primary" download>Download
+                                        Resume</a>
+                                @else
+                                    <p class="card-text text-danger">No resume uploaded</p>
+                                @endif
+                                @if($user->pivot->cover_letter)
+                                    <a href="{{Storage::url($user->pivot->cover_letter)}}" class="btn btn-primary mt-2" download>Download
+                                        Cover Letter</a>
+                                @endif
+                                <button type="submit"
+                                        class="mt-2 {{$user->pivot->is_shortlisted ? 'btn btn-success disabled' : 'btn btn-dark'}}">
+                                    Shortlist
+                                </button>
                             </form>
                         </div>
 

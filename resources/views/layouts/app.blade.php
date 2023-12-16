@@ -31,25 +31,29 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link btn btn-dark {{ Request::is('/') ? 'active' : '' }}" aria-current="page" href="/">Home</a>
                 </li>
-                @if(!Auth::check())
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('login')}}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('create.seeker')}}">Job Seeker</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('create.employer')}}">Employer</a>
+                @if(Auth::check())
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{{ Storage::url(auth()->user()->profile_pic) }}" alt="Profile Picture" class="rounded-circle" width="30">
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark text-center">
+                            <li><a class="dropdown-item nav-link" href="{{route('seeker.profile')}}">Profile</a></li>
+                            <li><a class="dropdown-item nav-link" href="{{route('user.jobs')}}">Job Applications</a></li>
+                            <li><a class="dropdown-item nav-link" id="logout" href="#">Logout</a></li>
+                        </ul>
                     </li>
                 @endif
-                @if(Auth::check())
+                @if(!Auth::check())
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('seeker.profile')}}">Profile</a>
+                        <a class="nav-link btn btn-dark {{ Request::is('login') ? 'active' : '' }}" href="{{route('login')}}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="logout" href="#">Logout</a>
+                        <a class="nav-link btn btn-dark {{ Request::is('register/seeker') ? 'active' : '' }}" href="{{route('create.seeker')}}">Job Seeker</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-dark {{ Request::is('register/employer') ? 'active' : '' }}" href="{{route('create.employer')}}">Employer</a>
                     </li>
                 @endif
                 <form id="logoutForm" action="{{route('logout')}}" method="post">@csrf</form>

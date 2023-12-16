@@ -49,7 +49,31 @@
                             </div>
                             <div class="form-group mt-4">
                                 <button type="submit" class="btn btn-success">Update Profile</button>
+                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal" type="button">Delete Account</button>
                             </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="deleteAccountModal">Delete Confirmation</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete your account. This will delete all of your data stored on our website?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <form action="{{ route('user.delete') }}" method="POST">@csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </div>
                 </div>
@@ -96,7 +120,7 @@
                             @csrf
                             <div class="form-group">
                                 <label for="resume">Resume</label><br>
-                                <input type="file" class="form-control-file" id="resume" name="resume">
+                                <input type="file" class="form-control" id="resume" name="resume">
                             </div>
                             <div class="form-group mt-4">
                                 <button type="submit" class="btn btn-success">Upload Resume</button>

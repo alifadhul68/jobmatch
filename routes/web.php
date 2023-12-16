@@ -42,7 +42,9 @@ Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->m
 Route::post('/user/password/update', [UserController::class, 'updatePassword'])->middleware('auth')->name('user.password.update');
 Route::post('/seeker/resume/upload', [UserController::class, 'uploadResume'])->middleware('auth')->name('user.resume.upload');
 Route::post('/seeker/resume/remove', [UserController::class, 'deleteResume'])->middleware('auth')->name('user.resume.remove');
-
+Route::delete('user/delete', [UserController::class, 'deleteUser'])->middleware(['auth', 'verified'])->name('user.delete');
+Route::get('/company/{id}', [UserController::class, 'companyProfile'])->name('company.profile');
+Route::get('user/job/applied', [UserController::class, 'appliedJobs'])->middleware(['auth', 'verified'])->name('user.jobs');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['verified', isEmployer::class])
     ->name('dashboard');

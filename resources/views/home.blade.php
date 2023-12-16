@@ -4,14 +4,38 @@
     <div class="container mt-5">
         <div class="d-flex justify-content-between">
             <h4>Recommended Jobs</h4>
-            <button class="btn btn-dark">View</button>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Salary
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="{{route("home", ['salary' => 'high_to_low'])}}" class="dropdown-item">High to Low</a></li>
+                    <li><a href="{{route("home", ['salary' => 'low_to_high'])}}" class="dropdown-item">Low to High</a></li>
+                </ul>
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Date
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="{{route("home", ['date' => 'newest'])}}" class="dropdown-item">Newest</a></li>
+                    <li><a href="{{route("home", ['date' => 'oldest'])}}" class="dropdown-item">Oldest</a></li>
+                </ul>
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Job Type
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="{{route("home", ['job_type' => 'fulltime'])}}" class="dropdown-item">Full Time</a></li>
+                    <li><a href="{{route("home", ['job_type' => 'parttime'])}}" class="dropdown-item">Part Time</a></li>
+                    <li><a href="{{route("home", ['job_type' => 'remote'])}}" class="dropdown-item">Remote</a></li>
+                </ul>
+                <a href="{{ route('home') }}" class="btn btn-danger btn-close"></a>
+            </div>
         </div>
         <div class="row mt-2 g-1">
             @foreach ($jobs as $job)
                 <div class="col-md-3">
                     <div class="card p-2">
-                        <div class="text-right fw-bold">
-                            <small>
+                        <div class="text-right">
+                            <small class="badge text-bg-info">
                                 @if ($job->job_type == 'fulltime')
                                     Full Time
                                 @elseif ($job->job_type == 'remote')
