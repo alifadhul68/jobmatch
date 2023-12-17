@@ -23,7 +23,7 @@ class Listing extends Model
 
     public function users(){
         return $this->belongsToMany(User::class, 'listing_user', 'listing_id', 'user_id')
-            ->withpivot('is_shortlisted', 'cover_letter')
+            ->withpivot('id', 'is_shortlisted', 'cover_letter')
             ->withTimestamps();
     }
 

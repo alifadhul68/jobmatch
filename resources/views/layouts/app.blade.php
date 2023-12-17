@@ -9,7 +9,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href={{asset('/icon/favicon-16x16.png')}}>
     <link rel="manifest" href={{asset('/icon/site.webmanifest')}}>
     <link rel="mask-icon" href={{asset('/icon/safari-pinned-tab.svg')}} color="#5bbad5">
-    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="{{asset('css/styles.css')}}" rel="stylesheet" />
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -41,6 +42,7 @@
                         <ul class="dropdown-menu dropdown-menu-dark text-center">
                             <li><a class="dropdown-item nav-link" href="{{route('seeker.profile')}}">Profile</a></li>
                             <li><a class="dropdown-item nav-link" href="{{route('user.jobs')}}">Job Applications</a></li>
+                            <li><a class="dropdown-item nav-link" href="{{route('messages')}}">Messages</a></li>
                             <li><a class="dropdown-item nav-link" id="logout" href="#">Logout</a></li>
                         </ul>
                     </li>
@@ -69,5 +71,14 @@
         logoutForm.submit();
     })
 </script>
+<script src="{{asset('js/datatables-simple-demo.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

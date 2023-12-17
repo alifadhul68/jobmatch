@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->text('about')->nullable();
-            $table->string('profile_pic')->nullable();
+            $table->string('profile_pic')->nullable()->default('profile/default.png');
             $table->string('user_type');
             $table->string('resume')->nullable();
             $table->date('user_trial')->nullable();

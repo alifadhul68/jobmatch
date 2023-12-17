@@ -1,11 +1,16 @@
 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
     <div class="sb-sidenav-menu">
         <div class="nav">
-            <div class="sb-sidenav-menu-heading">Home</div>
+            <div class="sb-sidenav-menu-heading">Main</div>
             <a class="nav-link" href="{{route('dashboard')}}">
                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                 Dashboard
             </a>
+            <a id="logout" class="nav-link" href="#">
+                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                Logout
+            </a>
+            <form id="logoutForm" action="{{route('logout')}}" method="post">@csrf</form>
             <div class="sb-sidenav-menu-heading">Company Management</div>
             <a class="nav-link" href="{{route('employer.profile')}}">
                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
@@ -15,11 +20,6 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                 Subscribe
             </a>
-            <a id="logout" class="nav-link" href="#">
-                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                Logout
-            </a>
-            <form id="logoutForm" action="{{route('logout')}}" method="post">@csrf</form>
             <div class="sb-sidenav-menu-heading">HR Management</div>
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
                aria-expanded="false" aria-controls="collapseLayouts">
@@ -37,6 +37,10 @@
             <a class="nav-link" href="{{route('applicants.index')}}">
                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                 Applicants
+            </a>
+            <a class="nav-link" href="{{route('messages')}}">
+                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                Messages
             </a>
         </div>
     </div>

@@ -40,6 +40,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function jobs() {
         return $this->hasMany(Listing::class, 'user_id', 'id');
     }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'recipient_id');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -6,4 +6,12 @@ window.addEventListener('DOMContentLoaded', event => {
     if (datatablesSimple) {
         new simpleDatatables.DataTable(datatablesSimple);
     }
+    const sentMessages = document.getElementById('sentMessagesTable');
+    if (sentMessages) {
+        new simpleDatatables.DataTable(sentMessages);
+    }
+    const receivedMessages = document.getElementById('receivedMessagesTable');
+    if (receivedMessages) {
+        new simpleDatatables.DataTable(receivedMessages);
+    }
 });

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobListingController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SubscriptionController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\DashboardController;
@@ -75,3 +76,7 @@ Route::get('/applicants', [ApplicantController::class, 'index'])->middleware(['a
 Route::get('/applicants/{listing:slug}', [ApplicantController::class, 'view'])->middleware(['auth', isEmployer::class])->name('applicants.view');
 Route::post('/applicants/shortlist/{listingId}/{userId}', [ApplicantController::class, 'shortlist'])->middleware(['auth', isEmployer::class])->name('applicants.shortlist');
 Route::post('/seeker/{listingId}/apply', [ApplicantController::class, 'apply'])->middleware('auth')->name('job.apply');
+Route::get('/generate-applicant-data', [PDFController::class, 'applicants'])->middleware('auth', isEmployer::class)->name('generate.applicant.data');
+
+Route::get('/messages', [MessageController::class,'index'])->middleware(['auth'])->name('messages');
+Route::post('/message/send', [MessageController::class,'send'])->middleware(['auth'])->name('message.send');
