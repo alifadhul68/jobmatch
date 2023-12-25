@@ -37,8 +37,8 @@ Route::get('/login', [UserController::class, 'login'])->middleware(CheckAuth::cl
 Route::post('/login', [UserController::class, 'postLogin'])->name('login.post');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
-Route::get('/employer/profile', [UserController::class, 'employerProfile'])->middleware('auth')->name('employer.profile');
-Route::get('/seeker/profile', [UserController::class, 'seekerProfile'])->middleware('auth')->name('seeker.profile');
+Route::get('/employer/profile', [UserController::class, 'employerProfile'])->middleware(['auth', 'verified'])->name('employer.profile');
+Route::get('/seeker/profile', [UserController::class, 'seekerProfile'])->middleware(['auth', 'verified'])->name('seeker.profile');
 Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->middleware('auth')->name('user.profile.update');
 Route::post('/user/password/update', [UserController::class, 'updatePassword'])->middleware('auth')->name('user.password.update');
 Route::post('/seeker/resume/upload', [UserController::class, 'uploadResume'])->middleware('auth')->name('user.resume.upload');
@@ -76,7 +76,7 @@ Route::get('/applicants', [ApplicantController::class, 'index'])->middleware(['a
 Route::get('/applicants/{listing:slug}', [ApplicantController::class, 'view'])->middleware(['auth', isEmployer::class])->name('applicants.view');
 Route::post('/applicants/shortlist/{listingId}/{userId}', [ApplicantController::class, 'shortlist'])->middleware(['auth', isEmployer::class])->name('applicants.shortlist');
 Route::post('/seeker/{listingId}/apply', [ApplicantController::class, 'apply'])->middleware('auth')->name('job.apply');
-Route::get('/generate-applicant-data', [PDFController::class, 'applicants'])->middleware('auth', isEmployer::class)->name('generate.applicant.data');
+Route::get('/generate-pdf/{slug}', [ApplicantController::class, 'generatePDF'])->name('generate.applicant.pdf');
 
 Route::get('/messages', [MessageController::class,'index'])->middleware(['auth'])->name('messages');
 Route::post('/message/send', [MessageController::class,'send'])->middleware(['auth'])->name('message.send');

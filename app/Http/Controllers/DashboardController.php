@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Listing;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +17,12 @@ class DashboardController extends Controller
 
     public function index()
     {
-        return view('dashboard');
+        $user = User::withCount('jobs')->where('id', auth()->user()->id)->first();
+        $listings = Listing::latest()->withCount('users')->where('user_id', auth()->user()->id)->get();
+        $applicantsCount = $listings->sum('users_count');
+        $listingShortlisted = Listing::latest()->withCount('shortlisted')->where('user_id', auth()->user()->id)->get();
+        $shortlistedCount = $listingShortlisted->sum('shortlisted_count');
+        return view('dashboard', compact(['user', 'applicantsCount', 'shortlistedCount']));
     }
 
     public function verify()

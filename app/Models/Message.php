@@ -30,4 +30,5 @@ class Message extends Model
             ->select('listings.title');
     }
 
+
 }

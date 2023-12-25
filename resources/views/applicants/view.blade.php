@@ -41,25 +41,26 @@
                                   class="d-flex flex-column align-items-stretch">
                                 @csrf
                                 @if($user->resume)
-                                    <a href="{{Storage::url($user->resume)}}" class="btn btn-primary" download>Download
+                                    <a href="{{Storage::url($user->resume)}}" class="m-2 btn btn-primary" download>Download
                                         Resume</a>
                                 @else
-                                    <p class="card-text text-danger">No resume uploaded</p>
+                                    <p class="m-2 card-text text-danger">No resume uploaded</p>
                                 @endif
                                 @if($user->pivot->cover_letter)
-                                    <a href="{{Storage::url($user->pivot->cover_letter)}}" class="btn btn-primary mt-2"
+                                    <a href="{{Storage::url($user->pivot->cover_letter)}}" class="m-2 btn btn-primary"
                                        download>Download
                                         Cover Letter</a>
                                 @endif
+                                <button type="button" class="m-2 btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#messageModal">
+                                    Message
+                                </button>
                                 <button type="submit"
-                                        class="mt-2 {{$user->pivot->is_shortlisted ? 'btn btn-success disabled' : 'btn btn-dark'}}">
-                                    Shortlist
+                                        class="m-2 {{$user->pivot->is_shortlisted ? 'btn btn-success disabled' : 'btn btn-dark'}}">
+                                     {{$user->pivot->is_shortlisted ? 'Shortlisted' : 'Shortlist'}}
                                 </button>
                             </form>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#messageModal">
-                                Message
-                            </button>
+
                             <!-- Modal -->
                             <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel"
                                  aria-hidden="true">

@@ -15,8 +15,7 @@
                             <th>Job title</th>
                             <th>Created on</th>
                             <th>Total applicants</th>
-                            <th>View job</th>
-                            <th>View applicants</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -25,8 +24,17 @@
                                 <td>{{$listing->title}}</td>
                                 <td>{{$listing->created_at->format('Y-m-d')}}</td>
                                 <td>{{$listing->users_count}}</td>
-                                <td>View</td>
-                                <td><a href="{{route('applicants.view', $listing->slug)}}">View</a></td>
+                                <td>
+                                    <a href="{{route('applicants.view', $listing->slug)}}" class="btn btn-primary">
+                                        View Applicants
+                                    </a>
+                                    <a href="{{route('generate.applicant.pdf', $listing->slug)}}" class="btn btn-primary">
+                                        Generate PDF
+                                    </a>
+                                    <a href="{{route('job.show', $listing->slug)}}" class="btn btn-primary">
+                                        View Job
+                                    </a>
+                                </td>
                             </tr>
 
                         @endforeach
