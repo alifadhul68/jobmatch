@@ -2,6 +2,9 @@
 
 namespace App\Mail;
 
+use App\Models\Interview;
+use App\Models\Listing;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,19 +12,21 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ShortlistMail extends Mailable implements ShouldQueue
+class InterviewMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public $name;
-    public $title;
-    public function __construct($name, $title)
+    public $user;
+    public $listing;
+    public $interview;
+    public function __construct(Listing $listing, Interview $interview, User $user)
     {
-        $this->name = $name;
-        $this->title = $title;
+        $this->listing = $listing;
+        $this->interview = $interview;
+        $this->user = $user;
     }
 
     /**
@@ -30,7 +35,7 @@ class ShortlistMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Job Match - Shortlisted',
+            subject: 'Job Match - Interview Schedule',
         );
     }
 
@@ -40,7 +45,7 @@ class ShortlistMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.shortlist',
+            markdown: 'emails.interview',
         );
     }
 

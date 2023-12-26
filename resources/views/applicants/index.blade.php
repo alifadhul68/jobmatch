@@ -31,9 +31,6 @@
                                     <a href="{{route('generate.applicant.pdf', $listing->slug)}}" class="btn btn-primary">
                                         Generate PDF
                                     </a>
-                                    <a href="{{route('job.show', $listing->slug)}}" class="btn btn-primary">
-                                        View Job
-                                    </a>
                                 </td>
                             </tr>
 

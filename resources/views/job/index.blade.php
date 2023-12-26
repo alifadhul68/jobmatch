@@ -19,16 +19,14 @@
                         <tr>
                             <th>Title</th>
                             <th>Created on</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
                             <th>Title</th>
                             <th>Created on</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Actions</th>
                         </tr>
                         </tfoot>
                         <tbody>
@@ -36,8 +34,11 @@
                             <tr>
                                 <td>{{$listing->title}}</td>
                                 <td>{{$listing->created_at->format('Y-m-d')}}</td>
-                                <td><a href="{{route('job.edit', $listing->id)}}">Edit</a></td>
-                                <td><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal{{$listing->id}}">Delete</a>
+                                <td><a href="{{route('job.edit', $listing->id)}}" class="btn btn-primary">Edit</a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal{{$listing->id}}" class="btn btn-danger">Delete</a>
+                                    <a href="{{route('job.show', $listing->slug)}}" class="btn btn-primary">
+                                        View Job
+                                    </a>
                                 </td>
                             </tr>
                             <!-- Modal -->

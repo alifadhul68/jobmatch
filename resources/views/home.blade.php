@@ -1,37 +1,24 @@
+
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-5">
-        <div class="d-flex justify-content-between">
-            <h4>Recommended Jobs</h4>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Salary
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="{{route("home", ['salary' => 'high_to_low'])}}" class="dropdown-item">High to Low</a></li>
-                    <li><a href="{{route("home", ['salary' => 'low_to_high'])}}" class="dropdown-item">Low to High</a></li>
-                </ul>
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Date
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="{{route("home", ['date' => 'newest'])}}" class="dropdown-item">Newest</a></li>
-                    <li><a href="{{route("home", ['date' => 'oldest'])}}" class="dropdown-item">Oldest</a></li>
-                </ul>
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Job Type
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="{{route("home", ['job_type' => 'fulltime'])}}" class="dropdown-item">Full Time</a></li>
-                    <li><a href="{{route("home", ['job_type' => 'parttime'])}}" class="dropdown-item">Part Time</a></li>
-                    <li><a href="{{route("home", ['job_type' => 'remote'])}}" class="dropdown-item">Remote</a></li>
-                </ul>
-                <a href="{{ route('home') }}" class="btn btn-danger btn-close"></a>
-            </div>
+    <div class="container my-5">
+
+        <!-- Hero Section -->
+        <div class="jumbotron text-center bg-primary mb-4">
+            <h1 class="display-4">Find Your Dream Job</h1>
+            <p class="lead">Explore top opportunities across various industries</p>
+            <a href="{{ route('jobs') }}" class="btn btn-light btn-lg">Browse All Jobs</a>
         </div>
-        <div class="row mt-2 g-1">
-            @foreach ($jobs as $job)
+
+        <!-- Filter and Sorting Section -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>Job Listings</h4>
+        </div>
+
+        <!-- Jobs Listing -->
+        <div class="row g-3">
+            @forelse ($jobs as $job)
                 <div class="col-md-3">
                     <div class="card p-2">
                         <div class="text-right">
@@ -67,16 +54,80 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <p>No jobs available at the moment.</p>
+            @endforelse
         </div>
+
+        <!-- Why Choose Us Section -->
+        <div class="mt-5">
+            <h4 class="">Why Choose Us?</h4>
+            <hr>
+            <p>Learn about our commitment to helping you find the best opportunities. At [Your Company], we prioritize your career growth by offering:</p>
+            <ul>
+                <li>Personalized job matches based on your skills and preferences</li>
+                <li>Expert career advice and support</li>
+                <li>Access to exclusive job openings in top companies</li>
+            </ul>
+        </div>
+
+        <!-- Testimonials Section -->
+        <div class="mt-5">
+            <h4 class="">Testimonials</h4>
+            <hr>
+            <p>See what others are saying about their experiences with us:</p>
+            <div class="testimonial-wrapper">
+                <!-- First Testimonial -->
+                <blockquote class="testimonial">
+                    <p>"I found my dream job through Job Match! The process was seamless and the support I received was outstanding."</p>
+                    <footer>- Jane Doe, Software Developer</footer>
+                </blockquote>
+
+                <!-- Second Testimonial -->
+                <blockquote class="testimonial">
+                    <p>"The personalized service at Job Match set it apart. They really understood my career goals and helped me navigate my job search effectively."</p>
+                    <footer>- John Smith, Digital Marketer</footer>
+                </blockquote>
+
+                <!-- Third Testimonial -->
+                <blockquote class="testimonial">
+                    <p>"Thanks to Job Match, I transitioned to a new industry smoothly. Their insights and network were invaluable."</p>
+                    <footer>- Emily Johnson, Project Manager</footer>
+                </blockquote>
+            </div>
+        </div>
+
     </div>
+
+    <!-- Custom Styling -->
     <style>
-        .card {
-            transition: background-color 0.5s ease;
+        .jumbotron {
+            background: url('{{ asset('assets/img/hero.png') }}') no-repeat center center;
+            background-size: cover;
+            padding: 10rem;
         }
 
         .card:hover {
             background-color: #efefef;
+        }
+        .testimonial-wrapper {
+            border-left: 4px solid #007bff;
+            padding-left: 20px;
+            margin-top: 15px;
+        }
+
+        .testimonial {
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .testimonial footer {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .news-list article {
+            margin-bottom: 15px;
         }
     </style>
 @endsection

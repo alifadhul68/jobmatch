@@ -15,9 +15,16 @@
                         {{Session::get('error')}}
                     </div>
                 @endif
+                @if(Session::has('errors'))
+                    <div class="alert alert-danger">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+                    </div>
+                @endif
             </div>
             @foreach($listing->users as $user)
-                <div class="card mt-5 {{$user->pivot->is_shortlisted ? 'border border-5 border-success' : ''}}">
+                <div class="card mt-5" style="{{$user->pivot->is_shortlisted ? 'background-color: #42cf8e47;' : ''}}">
                     <div class="row g-0">
 
                         <div class="col-auto d-flex align-items-center">
@@ -52,17 +59,56 @@
                                         Cover Letter</a>
                                 @endif
                                 <button type="button" class="m-2 btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#messageModal">
+                                        data-bs-target="#messageModal_{{$user->pivot->id}}">
                                     Message
                                 </button>
                                 <button type="submit"
-                                        class="m-2 {{$user->pivot->is_shortlisted ? 'btn btn-success disabled' : 'btn btn-dark'}}">
+                                        class="m-2 {{$user->pivot->is_shortlisted ? 'd-none' : 'btn btn-dark'}}">
                                      {{$user->pivot->is_shortlisted ? 'Shortlisted' : 'Shortlist'}}
                                 </button>
+                                @if($user->pivot->is_shortlisted)
+                                    <button type="button" class="m-2 btn btn-primary" data-bs-toggle="modal" data-bs-target="#interviewModal_{{$user->pivot->id}}">Schedule Interview</button>
+                                @endif
                             </form>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel"
+                            <!-- Interview Modal -->
+                            <div class="modal fade" id="interviewModal_{{$user->pivot->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="interviewModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="interviewModalLabel">Schedule an interview</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="{{ route('applicants.interview', $listing->id) }}" method="POST">
+                                            @csrf
+                                        <div class="modal-body">
+                                            <input type="hidden" name="applicantId" value="{{$user->pivot->id}}">
+                                            <input type="hidden" name="interviewerId" value="{{auth()->user()->id}}">
+                                            <input type="hidden" name="intervieweeId" value="{{$user->id}}">
+                                            <div class="form-group">
+                                                <label for="interviewTime">Interview Time</label>
+                                                <input type="datetime-local" class="form-control" id="interviewTime" name="interviewTime">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="interviewLocation">Interview Location</label>
+                                                <input type="text" class="form-control" id="interviewLocation" name="interviewLocation">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="interviewNotes">Notes</label>
+                                                <textarea id="interviewNotes" class="form-control" name="interviewNotes" placeholder="Optional"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Schedule</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Message Modal -->
+                            <div class="modal fade" id="messageModal_{{$user->pivot->id}}" tabindex="-1" aria-labelledby="messageModalLabel"
                                  aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">

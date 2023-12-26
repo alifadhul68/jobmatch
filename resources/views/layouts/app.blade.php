@@ -22,6 +22,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
+<div class="d-flex flex-column min-vh-100">
 <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
     <div class="container">
         <a class="navbar-brand" href="/">Job Match</a>
@@ -33,6 +34,10 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link btn btn-dark {{ Request::is('/') ? 'active' : '' }}" aria-current="page" href="/">Home</a>
+
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-dark {{ Request::is('jobs') ? 'active' : '' }}" href="{{route('jobs')}}">Jobs</a>
                 </li>
                 @if(Auth::check())
                     <li class="nav-item dropdown">
@@ -40,10 +45,15 @@
                             <img src="{{ Storage::url(auth()->user()->profile_pic) }}" alt="Profile Picture" class="rounded-circle" width="30">
                         </button>
                         <ul class="dropdown-menu dropdown-menu-dark text-center">
-                            <li><a class="dropdown-item nav-link" href="{{route('seeker.profile')}}">Profile</a></li>
-                            <li><a class="dropdown-item nav-link" href="{{route('user.jobs')}}">Job Applications</a></li>
-                            <li><a class="dropdown-item nav-link" href="{{route('messages')}}">Messages</a></li>
-                            <li><a class="dropdown-item nav-link" id="logout" href="#">Logout</a></li>
+                            @if(auth()->user()->user_type == 'employer')
+                                <li><a class="dropdown-item nav-link" href="{{route('employer.profile')}}">Profile</a></li>
+                                <li><a class="dropdown-item nav-link" href="{{route('dashboard')}}">Employer Dashboard</a></li>
+                            @else
+                                <li><a class="dropdown-item nav-link" href="{{route('seeker.profile')}}">Profile</a></li>
+                                <li><a class="dropdown-item nav-link" href="{{route('user.jobs')}}">Job Applications</a></li>
+                            @endif
+                                <li><a class="dropdown-item nav-link" href="{{route('messages')}}">Messages</a></li>
+                                <li><a class="dropdown-item nav-link" id="logout" href="#">Logout</a></li>
                         </ul>
                     </li>
                 @endif
@@ -63,7 +73,28 @@
         </div>
     </div>
 </nav>
-@yield('content')
+
+    <main class="flex-grow-1">
+        @yield('content')
+    </main>
+
+    <footer class="mt-5 bg-body-tertiary text-center text-lg-start">
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2023 Copyright: JobMatch. Inc
+        </div>
+        <!-- Copyright -->
+    </footer>
+</div>
+
+<style>
+    ul li:not(:last-child) {
+        border-right:1px solid grey;
+        margin-right:20px;
+        padding-right:20px;
+    }
+</style>
+
 <script>
     let logout = document.getElementById('logout');
     let logoutForm = document.getElementById('logoutForm');

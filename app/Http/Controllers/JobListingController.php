@@ -4,12 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Listing;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class JobListingController extends Controller
 {
     public function index(Request $request) {
+        $jobs = Listing::with('profile')->orderBy('created_at', 'desc')->take(4)->get();
+        return view('home', compact('jobs'));
+    }
+
+    public function allJobs(Request $request) {
         $salary = $request->query('salary');
         $date = $request->query('date');
         $jobType = $request->query('job_type');
@@ -47,7 +54,7 @@ class JobListingController extends Controller
         }
 
         $jobs = $listings->with('profile')->get();
-        return view('home', compact('jobs'));
+        return view('jobs', compact('jobs'));
     }
 
     public function view(Listing $listing) {
@@ -62,5 +69,17 @@ class JobListingController extends Controller
         }
 
         return response()->json(['success' => true, 'message' => 'File upload failed']);
+    }
+
+    public function generatePDF($listingId) {
+        $listing = Listing::find($listingId)->firstOrFail();
+        $pdf = PDF::loadView('pdf', compact('listing'));
+        $pdfFileName = 'job_' . $listing->title . '.pdf';
+        $pdfDirectory = 'public/pdfs/';
+        if (!Storage::exists($pdfDirectory)) {
+            Storage::makeDirectory($pdfDirectory);
+        }
+        $pdf->save(storage_path('app/' . $pdfDirectory . $pdfFileName));
+        return response()->download(storage_path('app/' . $pdfDirectory . $pdfFileName));
     }
 }

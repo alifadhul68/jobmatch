@@ -11,12 +11,12 @@
                     <div class="card-body">
                         <h5 class="card-title text-center">Weekly - BHD 20</h5>
                         <hr class=""/>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <p class="card-text">Get started with our Weekly Plan for just BHD 20. This plan offers flexibility for short-term hiring needs.</p>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">An item</li>
-                        <li class="list-group-item">A second item</li>
-                        <li class="list-group-item">A third item</li>
+                        <li class="list-group-item">Post your job listings</li>
+                        <li class="list-group-item">Access candidate applications</li>
+                        <li class="list-group-item">Quick and easy recruitment</li>
                     </ul>
                     <div class="card-body text-center">
                         <a href="{{ route('pay.weekly') }}" class="card-link">
@@ -30,12 +30,12 @@
                     <div class="card-body">
                         <h5 class="card-title text-center">Monthly - BHD 70</h5>
                         <hr class=""/>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <p class="card-text">For a more cost-effective option, choose our Monthly Plan at BHD 70 per month. Perfect for businesses looking to hire consistently.</p>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">An item</li>
-                        <li class="list-group-item">A second item</li>
-                        <li class="list-group-item">A third item</li>
+                        <li class="list-group-item">Unlimited job postings for a month</li>
+                        <li class="list-group-item">Access to applicant data</li>
+                        <li class="list-group-item">Ideal for ongoing recruitment</li>
                     </ul>
                     <div class="card-body text-center">
                         <a href="{{ route('pay.monthly') }}" class="card-link">
@@ -49,12 +49,12 @@
                     <div class="card-body">
                         <h5 class="card-title text-center">Yearly - BHD 500</h5>
                         <hr class=""/>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <p class="card-text">Maximize your savings with our Yearly Plan at only BHD 500 per year. This plan is perfect for long-term hiring strategies.</p>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">An item</li>
-                        <li class="list-group-item">A second item</li>
-                        <li class="list-group-item">A third item</li>
+                        <li class="list-group-item">Post jobs throughout the year</li>
+                        <li class="list-group-item">Applicant tracking and manage</li>
+                        <li class="list-group-item">Significant cost savings</li>
                     </ul>
                     <div class="card-body text-center">
                         <a href="{{ route('pay.yearly') }}" class="card-link">

@@ -9,6 +9,7 @@ use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\DashboardController;
 use App\Http\Middleware\CheckAuth;
 use App\Http\Middleware\isEmployer;
+use App\Http\Middleware\isSeeker;
 use App\Http\Middleware\isSubscribed;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -25,8 +26,10 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 */
 
 Route::get('/', [JobListingController::class, 'index'])->name('home');
+Route::get('/jobs', [JobListingController::class, 'allJobs'])->name('jobs');
 Route::get('/jobs/{listing:slug}', [JobListingController::class, 'view'])->name('job.show');
-Route::post('/coverletter/upload', [JobListingController::class, 'uploadCover'])->middleware('auth');
+Route::post('/coverletter/upload', [JobListingController::class, 'uploadCover'])->middleware(['auth', isSeeker::class]);
+Route::get('/generate-pdf/{listingId}', [JobListingController::class, 'generatePDF'])->name('generate.job.pdf');
 
 Route::get('/register/seeker', [UserController::class, 'createSeeker'])->middleware(CheckAuth::class)->name('create.seeker');
 Route::post('/register/seeker', [UserController::class, 'storeSeeker'])->name('store.seeker');
@@ -38,14 +41,14 @@ Route::post('/login', [UserController::class, 'postLogin'])->name('login.post');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::get('/employer/profile', [UserController::class, 'employerProfile'])->middleware(['auth', 'verified'])->name('employer.profile');
-Route::get('/seeker/profile', [UserController::class, 'seekerProfile'])->middleware(['auth', 'verified'])->name('seeker.profile');
+Route::get('/seeker/profile', [UserController::class, 'seekerProfile'])->middleware(['auth', 'verified', isSeeker::class])->name('seeker.profile');
 Route::post('/user/profile/update', [UserController::class, 'updateProfile'])->middleware('auth')->name('user.profile.update');
 Route::post('/user/password/update', [UserController::class, 'updatePassword'])->middleware('auth')->name('user.password.update');
 Route::post('/seeker/resume/upload', [UserController::class, 'uploadResume'])->middleware('auth')->name('user.resume.upload');
 Route::post('/seeker/resume/remove', [UserController::class, 'deleteResume'])->middleware('auth')->name('user.resume.remove');
 Route::delete('user/delete', [UserController::class, 'deleteUser'])->middleware(['auth', 'verified'])->name('user.delete');
 Route::get('/company/{id}', [UserController::class, 'companyProfile'])->name('company.profile');
-Route::get('user/job/applied', [UserController::class, 'appliedJobs'])->middleware(['auth', 'verified'])->name('user.jobs');
+Route::get('user/job/applied', [UserController::class, 'appliedJobs'])->middleware(['auth', 'verified', isSeeker::class])->name('user.jobs');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['verified', isEmployer::class])
     ->name('dashboard');
@@ -77,6 +80,7 @@ Route::get('/applicants/{listing:slug}', [ApplicantController::class, 'view'])->
 Route::post('/applicants/shortlist/{listingId}/{userId}', [ApplicantController::class, 'shortlist'])->middleware(['auth', isEmployer::class])->name('applicants.shortlist');
 Route::post('/seeker/{listingId}/apply', [ApplicantController::class, 'apply'])->middleware('auth')->name('job.apply');
 Route::get('/generate-pdf/{slug}', [ApplicantController::class, 'generatePDF'])->name('generate.applicant.pdf');
+Route::post('/applicants/{listingId}/interview/schedule', [ApplicantController::class, 'scheduleInterview'])->middleware('auth')->name('applicants.interview');
 
 Route::get('/messages', [MessageController::class,'index'])->middleware(['auth'])->name('messages');
 Route::post('/message/send', [MessageController::class,'send'])->middleware(['auth'])->name('message.send');

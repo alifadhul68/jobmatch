@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\InterviewMail;
 use App\Mail\ShortlistMail;
+use App\Models\Interview;
 use App\Models\Listing;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -71,4 +74,35 @@ class ApplicantController extends Controller
         return response()->download(storage_path('app/' . $pdfDirectory . $pdfFileName));
     }
 
+    public function scheduleInterview($listingId, Request $request) {
+        $request->validate([
+            'interviewTime' => 'required',
+            'interviewLocation' => 'required',
+        ]);
+
+        $applicantId = $request->applicantId;
+        $interviewerId = $request->interviewerId;
+        $intervieweeId = $request->intervieweeId;
+        $interviewTime = Carbon::parse($request->interviewTime)->format('Y-m-d H:i');
+        $interviewLocation = $request->interviewLocation;
+        $interviewNotes = $request->interviewNotes;
+
+        $interview = Interview::create([
+            'applicant_id' => $applicantId,
+            'interviewer_id' => $interviewerId,
+            'interviewee_id' => $intervieweeId,
+            'interview_date' => $interviewTime,
+            'location' => $interviewLocation,
+            'notes' => $interviewNotes,
+        ]);
+
+        if($interview){
+            $user = User::find($intervieweeId);
+            $listing = Listing::find($listingId);
+            Mail::to($user->email)->queue(new InterviewMail($listing, $interview, $user));
+            return back()->with('success', 'Successfully scheduled interview');
+        }
+
+        return back()->with('error', 'There was an error scheduling the interview. Please try again later.');
+    }
 }

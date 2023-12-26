@@ -1,14 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
                     <img src="{{Storage::url($listing->feature_image)}}" class="card-img-top" alt="Featured Job Image"
                          style="height: 150px; object-fit: cover;">
                     <div class="card-body">
-                        <a href="{{ route('company.profile', [$listing->profile->id]) }}"><img src="{{ Storage::url($listing->profile->profile_pic) }}" alt="" width="60" class="rounded-circle"></a>
+                        <a href="{{ route('company.profile', [$listing->profile->id]) }}"><img
+                                src="{{ Storage::url($listing->profile->profile_pic) }}" alt="" width="60"
+                                class="rounded-circle"></a>
                         <b>{{ $listing->profile->name }}</b>
                         <h2 class="card-title">{{$listing->title}}</h2>
                         <span class="badge bg-primary">
@@ -36,10 +38,17 @@
                             date: {{ \Carbon\Carbon::parse($listing->application_close_date)->format('jS \of F, Y') }}</p>
                         @if(auth()->user())
                             @if(auth()->user()->resume)
-                                <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdrop">
-                                    Apply Now
-                                </button>
+                                @if(\Carbon\Carbon::now() < $listing->application_close_date)
+                                    <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal"
+                                            data-bs-target="#staticBackdrop">
+                                        Apply Now
+                                    </button>
+                                    <a href="{{route('generate.job.pdf', $listing->id)}}" class="btn btn-primary mt-3">
+                                        Print Job
+                                    </a>
+                                @else
+                                    <span class="alert alert-danger d-block mt-5 text-center">The application due date for this job has passed</span>
+                                @endif
                             @else
                                 <span
                                     class="alert alert-danger d-block mt-5 text-center">You need to upload your resume to apply for a job. Update your <a
@@ -87,6 +96,8 @@
             </div>
         </div>
     </div>
+
+
     <script>
         const inputElement = document.querySelector('input[type="file"]');
         const pond = FilePond.create(inputElement);
