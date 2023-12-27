@@ -22,13 +22,13 @@ class JobEditRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|min:5',
-            'featured_image' => 'mimes:png,jpeg,jpg|max:2048',
-            'description' => 'required|min:200',
+            'title' => 'required',
+            'featured_image' => 'required|mimes:png,jpeg,jpg|max:10240',
+            'description' => 'required',
             'roles' => 'required',
             'job_type' => 'required',
             'address' => 'required',
-            'salary' => 'required',
+            'salary' => 'required|numeric|digits_between:1,13',
             'due' => 'required',
         ];
     }

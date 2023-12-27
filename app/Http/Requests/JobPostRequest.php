@@ -22,9 +22,9 @@ class JobPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|min:3',
+            'title' => 'required',
             'featured_image' => 'required|mimes:png,jpeg,jpg|max:10240',
-            'description' => 'required|min:200',
+            'description' => 'required',
             'roles' => 'required',
             'job_type' => 'required',
             'address' => 'required',
