@@ -7,6 +7,11 @@
         <div class="row justify-content-center">
             <div class="col-md-8 mt-5">
                 <h1>Post a Job</h1>
+                @if(Session::has('success'))
+                    <div class="alert alert-success">
+                        {{Session::get('success')}}
+                    </div>
+                @endif
                 <form action="{{route('job.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
