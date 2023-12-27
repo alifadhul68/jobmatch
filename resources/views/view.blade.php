@@ -37,22 +37,26 @@
                         <p class="card-text mt-4">Application Due
                             date: {{ \Carbon\Carbon::parse($listing->application_close_date)->format('jS \of F, Y') }}</p>
                         @if(auth()->user())
-                            @if(auth()->user()->resume)
-                                @if(\Carbon\Carbon::now() < $listing->application_close_date)
-                                    <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdrop">
-                                        Apply Now
-                                    </button>
-                                    <a href="{{route('generate.job.pdf', $listing->id)}}" class="btn btn-primary mt-3">
-                                        Print Job
-                                    </a>
+                            @if(auth()->user()->user_type == 'seeker')
+                                @if(auth()->user()->resume)
+                                    @if(\Carbon\Carbon::now() < $listing->application_close_date)
+                                        <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal"
+                                                data-bs-target="#staticBackdrop">
+                                            Apply Now
+                                        </button>
+                                        <a href="{{route('generate.job.pdf', $listing->id)}}" class="btn btn-primary mt-3">
+                                            Print Job
+                                        </a>
+                                    @else
+                                        <span class="alert alert-danger d-block mt-5 text-center">The application due date for this job has passed</span>
+                                    @endif
                                 @else
-                                    <span class="alert alert-danger d-block mt-5 text-center">The application due date for this job has passed</span>
+                                    <span
+                                        class="alert alert-danger d-block mt-5 text-center">You need to upload your resume to apply for a job. Update your <a
+                                            href="{{route('seeker.profile')}}">Profile</a> now.</span>
                                 @endif
                             @else
-                                <span
-                                    class="alert alert-danger d-block mt-5 text-center">You need to upload your resume to apply for a job. Update your <a
-                                        href="{{route('seeker.profile')}}">Profile</a> now.</span>
+                                <span class="alert alert-danger d-block mt-5 text-center">You are an employer not a seeker</span>
                             @endif
                         @else
                             <span class="alert alert-danger d-block mt-5 text-center">You need to log in to apply for a job. <a
