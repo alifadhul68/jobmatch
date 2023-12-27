@@ -66,7 +66,7 @@
                     </div>
                     <div class="form-group">
                         <label for="address">Address</label>
-                        <input type="text" name="address" id="address" class="form-control" placeholder="1234 Building, 1234 Street, 123 Block, City, Country">
+                        <input type="text" name="address" id="address" class="form-control" placeholder="1234 Building, 1234 Street, 123 Block, City, Country" value="{{ old('address') }}">
                         @if($errors->has('address'))
                             <div class="text-danger">{{$errors->first('address')}}</div>
                         @endif
