@@ -52,12 +52,12 @@
 
     <div>
         <h2 class="section-title">Job Description</h2>
-        <p class="section-content">{{ $listing->description }}</p>
+        <p class="section-content">{!! $listing->description !!}</p>
     </div>
 
     <div>
         <h2 class="section-title">Roles and Responsibilities</h2>
-        <p class="section-content">{{ $listing->roles }}</p>
+        <p class="section-content">{!! $listing->roles !!}</p>
     </div>
 
     <div>
