@@ -14,13 +14,14 @@
                 <h2 class="mb-0">{{ $company->name }}</h2>
             </div>
         </div>
-        <div class="row mt-5 mb-4 w-100">
-            <div class="col-md-3">
-                <h3>About</h3>
-                <p class="lead text-muted">{{ $company->about }}</p>
+        @if ($company->about)
+            <div class="row mt-5 mb-4 w-100">
+                <div class="col-md-3">
+                    <h3>About</h3>
+                    <p class="lead text-muted">{{ $company->about }}</p>
+                </div>
             </div>
-        </div>
-
+        @endif
         <!-- Job Listings -->
         <div class="row">
             <div class="col-md-8">
