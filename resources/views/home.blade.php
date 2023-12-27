@@ -7,7 +7,7 @@
         <!-- Hero Section -->
         <!-- Hero Section -->
         <!-- Hero Section -->
-        <div class="jumbotron text-center bg-primary text-light mb-4">
+        <div class="jumbotron text-center text-light mb-4">
             <h1 class="display-4" style="text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); font-weight: bold">Find Your Dream Job</h1>
             <p class="lead" style="text-shadow: 0 0 5px rgba(255, 255, 255, 1), 0 0 5px rgba(255, 255, 255, 1); color: black; font-weight: bold">Explore top opportunities across various industries</p>
 
