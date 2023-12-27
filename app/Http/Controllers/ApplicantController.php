@@ -76,7 +76,7 @@ class ApplicantController extends Controller
 
     public function scheduleInterview($listingId, Request $request) {
         $request->validate([
-            'interviewTime' => 'required',
+            'interviewTime' => 'required|date|after:today',
             'interviewLocation' => 'required',
         ]);
 
