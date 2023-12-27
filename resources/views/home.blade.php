@@ -5,15 +5,21 @@
     <div class="container my-5">
 
         <!-- Hero Section -->
-        <div class="jumbotron text-center bg-primary mb-4">
-            <h1 class="display-4">Find Your Dream Job</h1>
-            <p class="lead">Explore top opportunities across various industries</p>
-            <a href="{{ route('jobs') }}" class="btn btn-light btn-lg">Browse All Jobs</a>
+        <!-- Hero Section -->
+        <!-- Hero Section -->
+        <div class="jumbotron text-center bg-primary text-light mb-4">
+            <h1 class="display-4" style="text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); font-weight: bold">Find Your Dream Job</h1>
+            <p class="lead" style="text-shadow: 0 0 5px rgba(255, 255, 255, 1), 0 0 5px rgba(255, 255, 255, 1); color: black; font-weight: bold">Explore top opportunities across various industries</p>
+
+            <a href="{{ route('jobs') }}" class="btn btn-secondary btn-lg">Browse All Jobs</a>
         </div>
 
+
+
         <!-- Filter and Sorting Section -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4>Job Listings</h4>
+        <div class="mt-5">
+            <h4>Job Listings </h4>
+            <hr>
         </div>
 
         <!-- Jobs Listing -->
@@ -63,7 +69,7 @@
         <div class="mt-5">
             <h4 class="">Why Choose Us?</h4>
             <hr>
-            <p>Learn about our commitment to helping you find the best opportunities. At [Your Company], we prioritize your career growth by offering:</p>
+            <p>Learn about our commitment to helping you find the best opportunities. At Job Match, we prioritize your career growth by offering:</p>
             <ul>
                 <li>Personalized job matches based on your skills and preferences</li>
                 <li>Expert career advice and support</li>

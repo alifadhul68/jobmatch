@@ -49,8 +49,8 @@
         </div>
     </div>
     <script>
-        var url = "{{route('store.seeker')}}";
-        document.getElementById("RegisterBtn").addEventListener("click", function (event){
+        var url = "{{ route('store.seeker') }}";
+        document.getElementById("RegisterBtn").addEventListener("click", function(event) {
             var form = document.getElementById('RegistrationForm');
             var messageDiv = document.getElementById('message');
             messageDiv.innerHTML = '';
@@ -59,30 +59,40 @@
 
             var button = event.target;
             button.disabled = true;
-            button.innerHTML = 'Registering...'
+            button.innerHTML = 'Registering...';
 
             fetch(url, {
                 method: "POST",
                 headers: {
-                    'X-CSRF-TOKEN': '{{csrf_token()}}'
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
                 },
                 body: formData
             }).then(response => {
-                if(response.ok) {
+                button.innerHTML = 'Register';
+                button.disabled = false;
+                if (response.ok) {
                     return response.json();
                 } else {
-                    throw new Error('Error submitting form data')
+                    return response.json().then(data => {
+                        if (data.errors) {
+                            throw data.errors;
+                        } else {
+                            throw new Error('Error submitting form data');
+                        }
+                    });
                 }
             }).then(data => {
-                button.innerHTML = 'Register'
-                button.disabled = false
-                messageDiv.innerHTML = '<div class="alert alert-success">Registration was successful. Please check your email to verify your registration.</div>'
-                card.style.display = 'none'
-            }).catch(error => {
-                button.innerHTML = 'Register'
-                button.disabled = false
-                messageDiv.innerHTML = '<div class="alert alert-danger mt-3">Something went wrong. Please try again later.</div>'
-            })
-        })
+                messageDiv.innerHTML = '<div class="alert alert-success">Registration was successful. Please check your email to verify your registration.</div>';
+                card.style.display = 'none';
+            }).catch(errors => {
+                if (typeof errors === 'object') {
+                    var errorMessages = Object.values(errors).map(errorArray => errorArray.join('<br>')).join('<br>');
+                    messageDiv.innerHTML = `<div class="alert alert-danger mt-3">${errorMessages}</div>`;
+                } else {
+                    messageDiv.innerHTML = `<div class="alert alert-danger mt-3">${errors.message}</div>`;
+                }
+            });
+        });
     </script>
 @endsection

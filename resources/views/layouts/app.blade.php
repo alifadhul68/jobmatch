@@ -87,13 +87,6 @@
     </footer>
 </div>
 
-<style>
-    ul li:not(:last-child) {
-        border-right:1px solid grey;
-        margin-right:20px;
-        padding-right:20px;
-    }
-</style>
 
 <script>
     let logout = document.getElementById('logout');
