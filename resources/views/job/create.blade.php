@@ -23,21 +23,21 @@
                     </div>
                     <div class="form-group">
                         <label for="title">Title</label>
-                        <input type="text" name="title" id="title" class="form-control" placeholder="Job Title, Ex. Senior Developer">
+                        <input type="text" name="title" id="title" class="form-control" placeholder="Job Title, Ex. Senior Developer" value="{{ old('title') }}">
                         @if($errors->has('title'))
                             <div class="text-danger">{{$errors->first('title')}}</div>
                         @endif
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea name="description" id="description" class="form-control summernote"></textarea>
+                        <textarea name="description" id="description" class="form-control summernote">{{ old('description') }}</textarea>
                         @if($errors->has('description'))
                             <div class="text-danger">{{$errors->first('description')}}</div>
                         @endif
                     </div>
                     <div class="form-group">
                         <label for="roles">Roles and Responsibilities</label>
-                        <textarea name="roles" id="roles" class="form-control summernote"></textarea>
+                        <textarea name="roles" id="roles" class="form-control summernote">{{ old('roles') }}</textarea>
                         @if($errors->has('roles'))
                             <div class="text-danger">{{$errors->first('roles')}}</div>
                         @endif
@@ -45,19 +45,19 @@
                     <div class="form-group">
                         <label>Job Schedule</label>
                         <div class="form-check">
-                            <input type="radio" name="job_type" id="fulltime" class="form-check-input" value="fulltime">
+                            <input type="radio" name="job_type" id="fulltime" class="form-check-input" value="fulltime" {{ old('job_type') == 'fulltime' ? 'checked' : '' }}>
                             <label for="fulltime" class="form-check-label">Full Time</label>
                         </div>
                         <div class="form-check">
-                            <input type="radio" name="job_type" id="parttime" class="form-check-input" value="parttime">
+                            <input type="radio" name="job_type" id="parttime" class="form-check-input" value="parttime" {{ old('job_type') == 'parttime' ? 'checked' : '' }}>
                             <label for="parttime" class="form-check-label">Part Time</label>
                         </div>
                         <div class="form-check">
-                            <input type="radio" name="job_type" id="shift" class="form-check-input" value="shift">
+                            <input type="radio" name="job_type" id="shift" class="form-check-input" value="shift" {{ old('job_type') == 'shift' ? 'checked' : '' }}>
                             <label for="shift" class="form-check-label">Shifts</label>
                         </div>
                         <div class="form-check">
-                            <input type="radio" name="job_type" id="remote" class="form-check-input" value="remote">
+                            <input type="radio" name="job_type" id="remote" class="form-check-input" value="remote" {{ old('job_type') == 'remote' ? 'checked' : '' }}>
                             <label for="remote" class="form-check-label">Remote</label>
                         </div>
                         @if($errors->has('job_type'))
@@ -73,14 +73,14 @@
                     </div>
                     <div class="form-group">
                         <label for="salary">Salary</label>
-                        <input type="text" name="salary" id="salary" class="form-control" placeholder="$$$$">
+                        <input type="text" name="salary" id="salary" class="form-control" placeholder="$$$$" value="{{ old('salary') }}">
                         @if($errors->has('salary'))
                             <div class="text-danger">{{$errors->first('salary')}}</div>
                         @endif
                     </div>
                     <div class="form-group">
                         <label for="due">Application Due Date</label>
-                        <input type="text" name="due" id="datepicker" class="form-control" placeholder="yyyy-mm-dd">
+                        <input type="text" name="due" id="datepicker" class="form-control" placeholder="yyyy-mm-dd" value="{{ old('due') }}">
                         @if($errors->has('due'))
                             <div class="text-danger">{{$errors->first('due')}}</div>
                         @endif

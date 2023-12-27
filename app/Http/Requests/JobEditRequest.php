@@ -29,7 +29,7 @@ class JobEditRequest extends FormRequest
             'job_type' => 'required',
             'address' => 'required',
             'salary' => 'required|numeric|digits_between:1,13',
-            'due' => 'required',
+            'due' => 'required|date|date_format:Y-m-d|after:today',
         ];
     }
 }
