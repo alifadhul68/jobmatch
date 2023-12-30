@@ -24,10 +24,8 @@ class Message extends Model
         return $this->belongsTo(User::class, 'recipient_id');
     }
     // Define a custom relationship to access listing_id based on applicant_id
-    public function listing()
-    {
-        return $this->belongsTo(Listing::class, 'applicant_id')
-            ->select('listings.title');
+    public function listing(){
+        return $this->hasOneThrough(Listing::class, ListingUser::class, 'id', 'id', 'applicant_id', 'listing_id');
     }
 
 
