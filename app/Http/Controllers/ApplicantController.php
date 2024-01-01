@@ -51,9 +51,9 @@ class ApplicantController extends Controller
 
     public function generatePDF($slug)
     {
-        dd($slug);
-        $listing = Listing::where('slug', $slug)->where('user_id', auth()->user()->id)->firstOrFail();
 
+        $listing = Listing::where('slug', $slug)->where('user_id', auth()->user()->id)->firstOrFail();
+        dd($listing);
         // Load the view for the PDF and pass the data
         $pdf = PDF::loadView('applicants.pdf', compact('listing'));
 
