@@ -40,10 +40,17 @@
                             @if(auth()->user()->user_type == 'seeker')
                                 @if(auth()->user()->resume)
                                     @if(\Carbon\Carbon::now() < $listing->application_close_date)
-                                        <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal"
-                                                data-bs-target="#staticBackdrop">
-                                            Apply Now
-                                        </button>
+                                        @if($applicant)
+                                            <button type="button" class="btn btn-primary mt-3 disabled" data-bs-toggle="modal"
+                                                    data-bs-target="#staticBackdrop">
+                                                Applied
+                                            </button>
+                                        @else
+                                            <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal"
+                                                    data-bs-target="#staticBackdrop">
+                                                Apply Now
+                                            </button>
+                                        @endif
                                         <a href="{{route('generate.job.pdf', $listing->id)}}" class="btn btn-primary mt-3">
                                             Print Job
                                         </a>

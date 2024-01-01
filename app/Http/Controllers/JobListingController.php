@@ -58,6 +58,13 @@ class JobListingController extends Controller
     }
 
     public function view(Listing $listing) {
+        if(Auth::check()){
+            $applicant = ListingUser::where('listing_id', $listing->id)->where('user_id', auth()->user()->id);
+            if($applicant){
+                return view('view', compact(['listing', 'applicant']));
+            }
+            return view('view', compact('listing'));
+        }
         return view('view', compact('listing'));
     }
 
