@@ -49,7 +49,7 @@ class ApplicantController extends Controller
         return back()->with('success', 'Your application has been submitted successfully');
     }
 
-    public function generatePDF($slug)
+    public function generateApplicantPDF($slug)
     {
 
         $listing = Listing::where('slug', $slug)->where('user_id', auth()->user()->id)->firstOrFail();
