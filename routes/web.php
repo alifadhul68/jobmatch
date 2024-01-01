@@ -29,7 +29,7 @@ Route::get('/', [JobListingController::class, 'index'])->name('home');
 Route::get('/jobs', [JobListingController::class, 'allJobs'])->name('jobs');
 Route::get('/jobs/{listing:slug}', [JobListingController::class, 'view'])->name('job.show');
 Route::post('/coverletter/upload', [JobListingController::class, 'uploadCover'])->middleware(['auth', isSeeker::class]);
-Route::get('/generate-pdf/{listingId}', [JobListingController::class, 'generatePDF'])->name('generate.job.pdf');
+
 
 Route::get('/register/seeker', [UserController::class, 'createSeeker'])->middleware(CheckAuth::class)->name('create.seeker');
 Route::post('/register/seeker', [UserController::class, 'storeSeeker'])->name('store.seeker');
