@@ -41,7 +41,7 @@
                                 @if(auth()->user()->resume)
                                     @if(\Carbon\Carbon::now() < $listing->application_close_date)
                                         @if($applicant)
-                                            <button type="button" class="btn btn-primary mt-3 disabled" data-bs-toggle="modal"
+                                            <button type="button" class="btn btn-secondary mt-3 disabled" data-bs-toggle="modal"
                                                     data-bs-target="#staticBackdrop">
                                                 Applied
                                             </button>

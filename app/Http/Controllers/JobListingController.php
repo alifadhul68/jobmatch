@@ -59,20 +59,17 @@ class JobListingController extends Controller
     }
 
     public function view(Listing $listing) {
-        $applicant = null;
+        $applicant = null; // Initialize $applicant as null
 
         if(auth()->check()){
             $applicant = ListingUser::where('listing_id', $listing->id)
                 ->where('user_id', auth()->user()->id)
                 ->first(); // Execute the query and get the first result
-
-            // Now check if an applicant record was found
-            if($applicant){
-                return view('view', compact(['listing', 'applicant']));
-            }
         }
 
-        return view('view', compact('listing'));
+        // Now, $applicant is either an applicant object or null
+        // Pass $applicant to the view in both cases
+        return view('view', compact(['listing', 'applicant']));
     }
 
     public function uploadCover(Request $request)
