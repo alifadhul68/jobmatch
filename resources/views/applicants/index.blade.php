@@ -28,7 +28,7 @@
                                     <a href="{{route('applicants.view', $listing->slug)}}" class="btn btn-primary">
                                         View Applicants
                                     </a>
-                                    <a href="{{route('generate.applicant.pdf', $listing->slug)}}" class="btn btn-primary">
+                                    <a href="{{route('applicants.generate', $listing->slug)}}" class="btn btn-primary">
                                         Generate PDF
                                     </a>
                                 </td>

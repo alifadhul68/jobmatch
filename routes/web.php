@@ -79,7 +79,7 @@ Route::get('/applicants', [ApplicantController::class, 'index'])->middleware(['a
 Route::get('/applicants/{listing:slug}', [ApplicantController::class, 'view'])->middleware(['auth', isEmployer::class])->name('applicants.view');
 Route::post('/applicants/shortlist/{listingId}/{userId}', [ApplicantController::class, 'shortlist'])->middleware(['auth', isEmployer::class])->name('applicants.shortlist');
 Route::post('/seeker/{listingId}/apply', [ApplicantController::class, 'apply'])->middleware('auth')->name('job.apply');
-Route::get('/generate-pdf/{slug}', [ApplicantController::class, 'generateApplicantPDF'])->middleware('auth')->name('generate.applicant.pdf');
+Route::get('/generate-pdf/{slug}', [ApplicantController::class, 'generateApplicantPDF'])->middleware('auth')->name('applicants.generate');
 Route::post('/applicants/{listingId}/interview/schedule', [ApplicantController::class, 'scheduleInterview'])->middleware('auth')->name('applicants.interview');
 
 Route::get('/messages', [MessageController::class,'index'])->middleware(['auth'])->name('messages');

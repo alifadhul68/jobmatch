@@ -49,7 +49,31 @@ class ApplicantController extends Controller
         return back()->with('success', 'Your application has been submitted successfully');
     }
 
+    public function generateApplicantPDF($slug)
+    {
 
+        $listing = Listing::where('slug', $slug)->where('user_id', auth()->user()->id)->firstOrFail();
+
+        // Load the view for the PDF and pass the data
+        $pdf = PDF::loadView('applicants.pdf', compact('listing'));
+
+        // Generate the PDF file with a unique name
+        $pdfFileName = 'job_' . $listing->id . '_applicants.pdf';
+
+        // Define the directory path where the PDF should be saved
+        $pdfDirectory = 'public/pdfs/';
+
+        // Check if the directory exists; if not, create it
+        if (!Storage::exists($pdfDirectory)) {
+            Storage::makeDirectory($pdfDirectory);
+        }
+
+        // Save the PDF to the storage directory
+        $pdf->save(storage_path('app/' . $pdfDirectory . $pdfFileName));
+
+        // Return a response to download the PDF
+        return response()->download(storage_path('app/' . $pdfDirectory . $pdfFileName));
+    }
 
     public function scheduleInterview($listingId, Request $request) {
         $request->validate([
