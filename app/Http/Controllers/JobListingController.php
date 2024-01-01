@@ -72,7 +72,7 @@ class JobListingController extends Controller
     }
 
     public function generatePDF($listingId) {
-        $listing = Listing::where('id', $listingId)->get();
+        $listing = Listing::find($listingId);
         dd($listing);
         $pdf = PDF::loadView('pdf', compact('listing'));
         $pdfFileName = 'job_' . $listing->title . '.pdf';
