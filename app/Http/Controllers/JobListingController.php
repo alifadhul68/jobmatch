@@ -82,15 +82,5 @@ class JobListingController extends Controller
         return response()->json(['success' => true, 'message' => 'File upload failed']);
     }
 
-    public function generatePDF($listingId) {
-        $listing = Listing::find($listingId);
-        $pdf = PDF::loadView('pdf', compact('listing'));
-        $pdfFileName = 'job_' . $listing->title . '.pdf';
-        $pdfDirectory = 'public/pdfs/';
-        if (!Storage::exists($pdfDirectory)) {
-            Storage::makeDirectory($pdfDirectory);
-        }
-        $pdf->save(storage_path('app/' . $pdfDirectory . $pdfFileName));
-        return response()->download(storage_path('app/' . $pdfDirectory . $pdfFileName));
-    }
+
 }
